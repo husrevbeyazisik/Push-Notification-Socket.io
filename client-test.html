@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+  </head>
+
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+  $(function () {
+    var socket = io('http://localhost:3000/general', { query: "UserId=1&Username=testuser" });
+    
+    socket.on('connect', function(){
+            console.log("connect " + socket.io.engine.id)
+    });
+  
+    socket.on('connected', function(data){
+        console.log(data)
+    });
+
+    socket.on('onMessage', function(data){
+      $('#messages').append($('<li>').text(JSON.stringify(data)));
+    });
+
+  });
+</script>
+
+  <body>
+    <ul id="messages"></ul>
+  </body>
+</html>
